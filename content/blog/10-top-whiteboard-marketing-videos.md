@@ -1,26 +1,24 @@
 ---
-title: "10 Top Whiteboard Marketing Videos to Inspire Your Brand"
+title: 10 Top Whiteboard Marketing Videos to Inspire Your Brand
 url_slug: 10-top-whiteboard-marketing-videos
-category: "10 Studio"
+category: 10 Studio
+byline: Written for 10 Studio, published under a different byline
 date: ""
-draft: false
 order: 10
+draft: false
 featured_image: ""
 featured_image_alt: ""
-byline: "Written for 10 Studio, published under a different byline"
 show_toc: true
 seo:
-  title: "10 Top Whiteboard Marketing Videos to Inspire Your Brand | Kazi MD Arafat Rahaman"
-  description: "10 Top Whiteboard Marketing Videos to Inspire Your Brand, written by Kazi MD Arafat Rahaman for 10 Studio."
-  focus_keyword: ""
+  title: 10 Top Whiteboard Marketing Videos to Inspire Your Brand
+  description: Whiteboard marketing videos enable companies to deliver the core
+    messages impactfully by building brand affinity and boosting conversions.
+  focus_keyword: Top Whiteboard Marketing Videos
 social:
   title: ""
   description: ""
   image: ""
 ---
-
-Meta Description: Whiteboard marketing videos enable companies to deliver the core messages impactfully by building brand affinity and boosting conversions.
-
 Over the last decade, there has been an explosion in the use of engaging whiteboard animation and video scribing to explain complex ideas and market brands.
 
 The simplicity of hand-drawn visuals and diagrams makes them an extremely effective way to create lasting impact and communicate clearly to an audience.
@@ -39,10 +37,10 @@ Whiteboard explainer videos allow businesses to showcase products, demonstrate h
 
 Some key advantages include -
 
-- high engagement and view rates due to the entertaining, dynamic format;
-- the ability to break down complicated details into easily understood concepts using custom illustrations specifically tailored for the brand;
-- lower production costs compared to live video; and
-- videos that keep the audience's attention throughout thanks to the evolving nature of “watching” a drawing unfold.
+* high engagement and view rates due to the entertaining, dynamic format;
+* the ability to break down complicated details into easily understood concepts using custom illustrations specifically tailored for the brand;
+* lower production costs compared to live video; and
+* videos that keep the audience's attention throughout thanks to the evolving nature of “watching” a drawing unfold.
 
 The unique, personal feel of whiteboard animation helps brands stand out and form an emotional connection. Simply put, these hand-drawn doodle videos foster engagement and brand recall like no other marketing content.
 
@@ -50,7 +48,7 @@ The unique, personal feel of whiteboard animation helps brands stand out and for
 
 Here are some of the best examples of whiteboard explainer videos, emphasizing their unique styles and impactful elements. Each brand video is dissected, focusing on key aspects that make them effective and engaging.
 
-1. Coca-Cola
+### Coca-Cola
 
 [Coca-Cola Content 2020 Part One](https://youtu.be/LerdMmWjU_E)
 
@@ -62,7 +60,7 @@ While the video's length is on the lengthier side, clocking in at 7 minutes, it 
 
 For marketers and enthusiasts alike, this Coca-Cola whiteboard animation is a treasure trove of wisdom and creativity.
 
-1. Ford
+### Ford
 
 <https://vimeo.com/169128093>
 
@@ -76,7 +74,7 @@ These whiteboard animations exemplify the effectiveness of conveying a brand mes
 
 Ford effortlessly combines simplicity and engagement, making these animations a standout in the realm of automotive marketing.
 
-1. USA Football
+### USA Football
 
 [Video for USA Football Coaching Tips](https://youtu.be/SATVrORDQYg)
 
@@ -90,7 +88,7 @@ By steering away from conventional hand-drawn methods, USA Football adds a layer
 
 This whiteboard animation stands out not only for its content but also for its visually appealing and child-friendly presentation.
 
-1. Unilever - NCCA Football
+### Unilever - NCCA Football
 
 [Unilever - NCAA Football](https://youtu.be/UPracV5w-XM)
 
@@ -104,7 +102,7 @@ What sets it apart is the strong voiceover, perfectly aligned with the video's c
 
 This video goes beyond typical marketing; it becomes a poignant commentary on masculinity and care, making it not only effective but also socially impactful.
 
-1. Oxfam
+### Oxfam
 
 <https://youtu.be/wuDQIjGRCfg>
 
@@ -118,7 +116,7 @@ The simplicity of whiteboard animation adds a layer of accessibility to a seriou
 
 Oxfam's whiteboard animation stands out as a compelling example of using this medium not just for marketing but also for meaningful storytelling and social awareness.
 
-1. MedVector
+### MedVector
 
 [MedVector Explainer Video (investors)](https://youtu.be/FYdV_zxa5Js)
 
@@ -132,7 +130,7 @@ What sets this video apart is its clarity in presenting information and maintain
 
 The animations not only explain the functionality of the product but also make the process visually appealing. MedVector's whiteboard animation serves as an exemplary marketing tool, effectively communicating the value proposition of its service to a diverse audience.
 
-1. Law Whiz
+### Law Whiz
 
 <https://youtu.be/HDlu94JPJxc>
 
@@ -144,7 +142,7 @@ The high technicalities presented and their simplified explanations cater to a b
 
 This whiteboard animation stands as a testament to the power of visual storytelling in simplifying and humanizing even the most technical aspects of legal technology.
 
-1. LifeUp
+### LifeUp
 
 [Whiteboard Video : Life Up | Whiteboard Explainer Video by MotionGility](https://youtu.be/-JB2gul0Imk)
 
@@ -156,7 +154,7 @@ The video's ability to strike a balance between promotional and educational cont
 
 The comical visuals and smooth transitions between scenes enhance the overall viewing experience, making it an engaging and informative piece in the healthcare training landscape.
 
-1. Cisco
+### Cisco
 
 [Employee Training Video for Cisco](https://youtu.be/GhR4wyiG8Dk)
 
@@ -166,7 +164,7 @@ Lasting approximately three minutes, the video masterfully incorporates brand co
 
 The subtle inclusion of brand elements and motivational storytelling make this video an effective tool for inspiring and informing Cisco's sales force.
 
-1. WOW Motorcycle
+### WOW Motorcycle
 
 [Whiteboard Video : WOW Motorcycle | Whiteboard Explainer Video by MotionGility](https://youtu.be/rQakU3MQkgM)
 
