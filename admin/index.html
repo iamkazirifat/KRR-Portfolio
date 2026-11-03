@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Blog Editor | Kazi MD Arafat Rahaman</title>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/decap-cms@3.17.1/dist/decap-cms.js"></script>
+<script>
+/* ---------- Preview styles: the real site stylesheet + the SEO panel ---------- */
+CMS.registerPreviewStyle('/style.css');
+CMS.registerPreviewStyle(`
+  body{padding:0}
+  .seo-panel{font-family:'IBM Plex Sans',system-ui,sans-serif;max-width:780px;margin:24px auto 0;padding:0 24px}
+  .seo-card{background:#1C1C23;border:1px solid rgba(245,241,234,.12);border-radius:16px;padding:20px 22px;margin-bottom:16px}
+  .seo-card h3{font-family:'Sora',sans-serif;font-size:14px;letter-spacing:1.5px;text-transform:uppercase;color:#D9A25C;margin:0 0 14px}
+  .score{display:flex;align-items:center;gap:14px}
+  .score b{font-family:'Sora',sans-serif;font-size:34px;line-height:1}
+  .score small{color:rgba(245,241,234,.6);font-size:13px}
+  .serp{background:#fff;border-radius:12px;padding:16px 18px;font-family:Arial,sans-serif}
+  .serp-url{font-size:12.5px;color:#4d5156;margin-bottom:4px}
+  .serp-title{font-size:19px;color:#1a0dab;line-height:1.3;margin-bottom:4px}
+  .serp-desc{font-size:13.5px;color:#4d5156;line-height:1.5}
+  .og{background:#fff;border-radius:12px;overflow:hidden;font-family:Arial,sans-serif;border:1px solid #ddd}
+  .og-img{height:170px;background:#e8e8e8 center/cover no-repeat;display:flex;align-items:center;justify-content:center;color:#888;font-size:13px}
+  .og-body{padding:10px 14px}
+  .og-domain{font-size:11.5px;color:#65676b;text-transform:uppercase}
+  .og-title{font-size:15px;font-weight:700;color:#050505;margin:3px 0}
+  .og-desc{font-size:13px;color:#65676b}
+  .meter{display:flex;justify-content:space-between;font-size:13px;color:rgba(245,241,234,.75);margin:10px 0 4px}
+  .bar{height:6px;border-radius:4px;background:rgba(245,241,234,.1);overflow:hidden}
+  .bar i{display:block;height:100%;border-radius:4px}
+  .checks{list-style:none;margin:0;padding:0}
+  .checks li{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;line-height:1.45;padding:7px 0;border-bottom:1px dashed rgba(245,241,234,.08);color:rgba(245,241,234,.85)}
+  .checks li:last-child{border-bottom:0}
+  .dot{flex-shrink:0;width:10px;height:10px;border-radius:50%;margin-top:5px}
+  .good{background:#4CC38A}.warn{background:#E8B44C}.bad{background:#E5484D}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:0}
+  .stats div{background:#15151A;border-radius:10px;padding:10px 12px}
+  .stats b{display:block;font-family:'Sora',sans-serif;font-size:20px;color:#F5F1EA}
+  .stats span{font-size:11.5px;color:rgba(245,241,234,.55)}
+  .divider{max-width:780px;margin:28px auto 0;padding:0 24px;font-size:12px;letter-spacing:2px;text-transform:uppercase;color:rgba(245,241,234,.4)}
+`, { raw: true });
+
+/* ---------- Helpers ---------- */
+var SITE = 'portfolio-of-kazi.vercel.app';
+function plain(md) {
+  return String(md || '')
+    .replace(/```[\s\S]*?```/g, ' ')
+    .replace(/!\[[^\]]*\]\([^)]*\)/g, ' ')
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/[#>*_`~-]/g, ' ');
+}
+function words(t) { return (t.match(/[A-Za-z0-9À-ɏঀ-৿']+/g) || []); }
+function countPhrase(text, phrase) {
+  if (!phrase) return 0;
+  var esc = phrase.trim().replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+  return (text.match(new RegExp('(^|[^a-z0-9])' + esc + '(?=$|[^a-z0-9])', 'gi')) || []).length;
+}
+function has(text, phrase) { return countPhrase(String(text || ''), phrase) > 0; }
+function slugify(s) { return String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, ''); }
+function cut(s, n) { s = String(s || ''); return s.length > n ? s.slice(0, n - 1).trim() + '…' : s; }
+
+function analyse(d) {
+  var body = d.body || '';
+  var title = d.title || '';
+  var seoTitle = d.seoTitle || (title ? title + ' | Kazi MD Arafat Rahaman' : '');
+  var desc = d.desc || '';
+  var kw = (d.kw || '').trim();
+  var slug = d.slug || slugify(title);
+  var text = plain(body);
+  var w = words(text);
+  var firstPara = plain((body.split(/\n\s*\n/).find(function (p) { return p.trim() && !/^\s*(#|!\[)/.test(p); }) || ''));
+  var headings = []; body.replace(/^(#{1,6})\s+(.+)$/gm, function (m, h, t) { headings.push({ level: h.length, text: t.trim() }); });
+  var mdImgs = []; body.replace(/!\[([^\]]*)\]\(([^)\s]+)[^)]*\)/g, function (m, alt, src) { mdImgs.push({ alt: alt.trim(), src: src }); });
+  var htmlImgs = []; body.replace(/<img\b[^>]*>/gi, function (m) { var a = m.match(/\balt="([^"]*)"/i); htmlImgs.push({ alt: a ? a[1].trim() : '' }); });
+  var imgs = mdImgs.concat(htmlImgs);
+  var links = []; body.replace(/(?:^|[^!])\[[^\]]*\]\(([^)\s]+)[^)]*\)/g, function (m, u) { links.push(u); });
+  var ext = links.filter(function (u) { return /^https?:\/\//.test(u) && u.indexOf(SITE) === -1; }).length;
+  var internal = links.length - ext;
+  var kwCount = countPhrase(text, kw);
+  var density = w.length ? (kwCount * (kw.split(/\s+/).length) / w.length) * 100 : 0;
+
+  var C = [];
+  function add(status, msg) { C.push({ s: status, m: msg }); }
+
+  // Title & description
+  var tl = seoTitle.length, dl = desc.length;
+  add(tl === 0 ? 'bad' : (tl >= 30 && tl <= 60 ? 'good' : 'warn'), 'SEO title is ' + tl + ' characters (aim for 30 to 60).');
+  add(dl === 0 ? 'bad' : (dl >= 120 && dl <= 160 ? 'good' : 'warn'), dl === 0 ? 'No meta description yet. Google will pick random text from the page.' : 'Meta description is ' + dl + ' characters (aim for 120 to 160).');
+  add(/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug) ? (slug.length <= 75 ? 'good' : 'warn') : 'bad', 'URL slug: /blog/' + (slug || '(empty)') + '.html' + (slug.length > 75 ? ' (long, try to shorten)' : ''));
+
+  // Focus keyword
+  if (!kw) {
+    add('warn', 'No focus keyword set, so keyword checks are skipped.');
+  } else {
+    add(has(seoTitle, kw) ? 'good' : 'bad', 'Focus keyword ' + (has(seoTitle, kw) ? 'appears' : 'is missing') + ' in the SEO title.');
+    add(has(desc, kw) ? 'good' : 'warn', 'Focus keyword ' + (has(desc, kw) ? 'appears' : 'is missing') + ' in the meta description.');
+    add(has(firstPara, kw) ? 'good' : 'warn', 'Focus keyword ' + (has(firstPara, kw) ? 'appears' : 'is missing') + ' in the first paragraph.');
+    var inH = headings.some(function (h) { return h.level >= 2 && has(h.text, kw); });
+    add(inH ? 'good' : 'warn', inH ? 'Focus keyword appears in an H2 or H3.' : 'No H2 or H3 contains the focus keyword.');
+    add(slug.indexOf(slugify(kw)) !== -1 ? 'good' : 'warn', 'Focus keyword ' + (slug.indexOf(slugify(kw)) !== -1 ? 'is' : 'is not') + ' in the URL slug.');
+    add(density >= 0.5 && density <= 2.5 ? 'good' : 'warn', 'Keyword used ' + kwCount + ' times, density ' + density.toFixed(1) + '% (aim for 0.5% to 2.5%).');
+  }
+
+  // Content
+  add(w.length >= 600 ? 'good' : (w.length >= 300 ? 'warn' : 'bad'), 'Word count: ' + w.length + (w.length < 600 ? ' (thin for a long-form article)' : '') + '.');
+  var h1s = headings.filter(function (h) { return h.level === 1; }).length;
+  add(h1s === 0 ? 'good' : 'bad', h1s === 0 ? 'No extra H1 in the body. The post title is the only H1.' : h1s + ' H1 heading(s) in the body. Use H2 instead, the title is already the H1.');
+  var skip = null, prev = 1;
+  headings.forEach(function (h) { if (!skip && h.level > prev + 1) skip = h; prev = h.level; });
+  add(headings.length === 0 ? 'warn' : (skip ? 'warn' : 'good'), headings.length === 0 ? 'No headings yet. Break the article up with H2s.' : (skip ? 'Heading level jumps to H' + skip.level + ' at "' + cut(skip.text, 40) + '". Do not skip levels.' : headings.length + ' headings, in a clean order.'));
+  var missing = imgs.filter(function (i) { return !i.alt; }).length;
+  add(imgs.length === 0 ? 'warn' : (missing ? 'bad' : 'good'), imgs.length === 0 ? 'No images in the body.' : (missing ? missing + ' of ' + imgs.length + ' images have no alt text.' : 'All ' + imgs.length + ' images have alt text.'));
+  if (d.featured) add(d.featuredAlt ? 'good' : 'bad', d.featuredAlt ? 'Featured image has alt text.' : 'Featured image has no alt text.');
+  add(ext > 0 ? 'good' : 'warn', ext + ' external source link(s), ' + internal + ' internal link(s).');
+
+  var pts = { good: 1, warn: 0.5, bad: 0 }, total = 0;
+  C.forEach(function (c) { total += pts[c.s]; });
+  var score = Math.round(total / C.length * 100);
+  return { checks: C, score: score, words: w.length, read: Math.max(1, Math.round(w.length / 220)), imgs: imgs.length, headings: headings.length, seoTitle: seoTitle, desc: desc, slug: slug, tl: tl, dl: dl };
+}
+
+function meter(label, n, lo, hi, max) {
+  var pct = Math.min(100, n / max * 100);
+  var color = n === 0 ? '#E5484D' : (n >= lo && n <= hi ? '#4CC38A' : '#E8B44C');
+  return h('div', {},
+    h('div', { className: 'meter' }, h('span', {}, label), h('span', {}, n + ' / ' + lo + '-' + hi)),
+    h('div', { className: 'bar' }, h('i', { style: { width: pct + '%', background: color } })));
+}
+
+/* ---------- Preview template ---------- */
+var PostPreview = createClass({
+  render: function () {
+    var e = this.props.entry, get = function (p) { return e.getIn(['data'].concat(p)); };
+    var featured = get(['featured_image']);
+    var shareImg = get(['social', 'image']) || featured;
+    var d = {
+      title: get(['title']), body: get(['body']), slug: get(['url_slug']),
+      seoTitle: get(['seo', 'title']), desc: get(['seo', 'description']), kw: get(['seo', 'focus_keyword']),
+      featured: featured, featuredAlt: get(['featured_image_alt'])
+    };
+    var a = analyse(d);
+    var scoreColor = a.score >= 80 ? '#4CC38A' : (a.score >= 55 ? '#E8B44C' : '#E5484D');
+    var shareTitle = get(['social', 'title']) || a.seoTitle;
+    var shareDesc = get(['social', 'description']) || a.desc;
+    var featuredSrc = featured ? this.props.getAsset(featured).toString() : '';
+    var shareSrc = shareImg ? this.props.getAsset(shareImg).toString() : '';
+
+    return h('div', {},
+      h('div', { className: 'seo-panel' },
+        h('div', { className: 'seo-card' },
+          h('h3', {}, 'SEO score'),
+          h('div', { className: 'score' }, h('b', { style: { color: scoreColor } }, a.score), h('small', {}, 'out of 100, based on the checks below. Treat it as a guide, not a rule.')),
+          h('div', { style: { height: '14px' } }),
+          h('div', { className: 'stats' },
+            h('div', {}, h('b', {}, a.words), h('span', {}, 'words')),
+            h('div', {}, h('b', {}, a.read + ' min'), h('span', {}, 'read time')),
+            h('div', {}, h('b', {}, a.headings), h('span', {}, 'headings')),
+            h('div', {}, h('b', {}, a.imgs), h('span', {}, 'images')))),
+        h('div', { className: 'seo-card' },
+          h('h3', {}, 'Google preview'),
+          h('div', { className: 'serp' },
+            h('div', { className: 'serp-url' }, SITE + ' › blog › ' + (a.slug || '')),
+            h('div', { className: 'serp-title' }, cut(a.seoTitle || 'Add an SEO title', 60)),
+            h('div', { className: 'serp-desc' }, cut(a.desc || 'Add a meta description. Without one, Google picks text from the page.', 160))),
+          meter('SEO title length', a.tl, 30, 60, 80),
+          meter('Meta description length', a.dl, 120, 160, 200)),
+        h('div', { className: 'seo-card' },
+          h('h3', {}, 'Social share preview'),
+          h('div', { className: 'og' },
+            h('div', { className: 'og-img', style: shareSrc ? { backgroundImage: 'url("' + shareSrc + '")' } : {} }, shareSrc ? '' : 'No share image. Your headshot will be used.'),
+            h('div', { className: 'og-body' },
+              h('div', { className: 'og-domain' }, SITE),
+              h('div', { className: 'og-title' }, cut(shareTitle, 70)),
+              h('div', { className: 'og-desc' }, cut(shareDesc, 110))))),
+        h('div', { className: 'seo-card' },
+          h('h3', {}, 'Content checks'),
+          h('ul', { className: 'checks' }, a.checks.map(function (c, i) {
+            return h('li', { key: i }, h('span', { className: 'dot ' + c.s }), h('span', {}, c.m));
+          })))),
+      h('div', { className: 'divider' }, 'Page preview'),
+      h('article', { className: 'blog-wrap' },
+        h('div', { className: 'blog-cat' }, get(['category']) || 'Blog'),
+        h('h1', { className: 'blog-title' }, d.title || 'Untitled post'),
+        h('div', { className: 'blog-byline' }, 'By Kazi MD Arafat Rahaman' + (get(['byline']) ? '  ·  ' + get(['byline']) : '')),
+        featuredSrc ? h('figure', { className: 'blog-featured' }, h('img', { src: featuredSrc, alt: d.featuredAlt || '' })) : null,
+        h('div', { className: 'blog-body' }, this.props.widgetFor('body'))));
+  }
+});
+CMS.registerPreviewTemplate('blog', PostPreview);
+</script>
+</body>
+</html>

@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{{HEAD}}
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="../style.css">
+<script>document.documentElement.classList.add('js')</script>
+</head>
+<body>
+<nav class="nav"><div class="wrap">
+<a href="../index.html" class="nav-logo">Kazi MD Arafat <span>Rahaman</span></a>
+<div class="nav-links">
+<a href="../index.html">Home</a>
+<a href="../index.html#services">Services</a>
+<a href="../portfolio.html" class="active">Portfolio</a>
+<a href="../resume.html">Resume</a>
+<a href="../index.html#testimonials">Testimonials</a>
+<a href="../index.html#contact" class="nav-cta">Contact</a>
+</div>
+</div></nav>
+
+<article class="blog-wrap">
+<a href="../portfolio.html" class="blog-back">&larr; Back to portfolio</a>
+<div class="blog-cat">{{CATEGORY}}</div>
+<h1 class="blog-title">{{TITLE}}</h1>
+<div class="blog-byline">{{BYLINE}}</div>
+{{FEATURED}}
+{{TOC}}
+<div class="blog-body">
+{{BODY}}
+</div>
+<div class="blog-footer">
+<a href="../portfolio.html" class="blog-back">&larr; Back to portfolio</a>
+</div>
+</article>
+<section class="cta" id="contact"><div class="wrap"><div class="cta-box reveal">
+<span class="eyebrow">Contact</span>
+<h2>Have something that needs <span class="gold">explaining?</span></h2>
+<p>Send me the brief. If I'm not the right writer for it, I'll tell you that too.</p>
+<div class="btn-row">
+<a href="mailto:iamkazirifat@gmail.com" class="btn btn-primary">Email me <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17L17 7M8 7h9v9"/></svg></a>
+<a href="https://www.linkedin.com/in/iamkazirifat/" target="_blank" rel="noopener" class="btn btn-secondary">Message on LinkedIn</a>
+</div>
+</div></div></section>
+<footer><div class="wrap"><div class="footer-row">
+<div class="footer-links">
+<a href="mailto:iamkazirifat@gmail.com">iamkazirifat@gmail.com</a>
+<a href="https://www.linkedin.com/in/iamkazirifat/" target="_blank" rel="noopener">LinkedIn</a>
+<a href="../resume.html">Resume</a>
+<a href="../portfolio.html">Portfolio</a>
+</div>
+<div class="copyright">&copy; Kazi MD Arafat Rahaman</div>
+</div></div></footer>
+<script>
+(function(){var els=document.querySelectorAll('.reveal');if(!('IntersectionObserver' in window)){els.forEach(function(e){e.classList.add('in')});return}
+var io=new IntersectionObserver(function(en){en.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});els.forEach(function(e){io.observe(e)})})();
+</script>
+</body>
+</html>
